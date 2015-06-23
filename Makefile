@@ -4,41 +4,27 @@
 #
 
 TARGET = vitahelloworld
-OBJS   = main.o draw.o font_data.o
+OBJS   = main.o draw.o font_data.o export.o
 
-STUBS = libSceLibKernel.a libSceDisplay.a libSceGxm.a libSceSysmem.a libSceCtrl.a
-
-NIDS_DB = sample-db.json
+LIBS = -lc_stub -lSceKernel_stub -lSceDisplay_stub -lSceGxm_stub -lSceCtrl_stub
 
 PREFIX  = $(DEVKITARM)/bin/arm-none-eabi
 CC      = $(PREFIX)-gcc
 READELF = $(PREFIX)-readelf
 OBJDUMP = $(PREFIX)-objdump
-CFLAGS  = -Wall -nostartfiles -nostdlib -I$(PSP2SDK)/include
+CFLAGS  = -Wall -B$(PSP2SDK)
+ASFLAGS = $(CFLAGS)
 
-STUBS_FULL = $(addprefix stubs/, $(STUBS))
+all: $(TARGET)_fixup.elf
 
-all: $(TARGET).velf
+%_fixup.elf: %.elf
+	psp2-fixup $< $@
 
-$(TARGET).velf: $(TARGET).elf
-	vita-elf-create $(TARGET).elf $(TARGET).velf $(NIDS_DB)
-#	$(READELF) -a $(TARGET).velf
-#	$(OBJDUMP) -D -j .text.fstubs $(TARGET).velf
-#	$(OBJDUMP) -s -j .data.vstubs -j .sceModuleInfo.rodata -j .sceLib.ent -j .sceExport.rodata -j .sceLib.stubs -j .sceImport.rodata -j .sceFNID.rodata -j .sceFStub.rodata -j .sceVNID.rodata -j .sceVStub.rodata -j .sce.rel $(TARGET).velf
-
-$(TARGET).elf: $(OBJS) $(STUBS_FULL)
-	$(CC) -Wl,-q -o $@ $^ $(CFLAGS)
-
-%.o: %.c
-	$(CC) -c -o $@ $< $(CFLAGS)
-
-$(STUBS_FULL):
-	@mkdir -p stubs
-	vita-libs-gen $(NIDS_DB) stubs/
-	$(MAKE) -C stubs $(notdir $@)
+$(TARGET).elf: $(OBJS)
+	$(CC) $(CFLAGS) -specs=psp2.specs -nostdlib -L$(PSP2SDK)/lib $^ $(LIBS) -o $@
 
 clean:
-	@rm -rf $(TARGET).elf $(TARGET).velf $(OBJS) stubs
+	@rm -rf $(TARGET)_fixup.elf $(TARGET).elf $(OBJS)
 
-copy: $(TARGET).velf
-	@cp $(TARGET).velf ~/shared/vitasample.elf
+copy: $(TARGET)_fixup.elf
+	@cp $(TARGET)_fixup.elf ~/shared/vitasample.elf

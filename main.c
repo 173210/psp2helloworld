@@ -17,7 +17,9 @@
 #include "defines.h"
 #include "draw.h"
 
-int _start()
+PSP2_MODULE_INFO(0, 0, "psp2helloworld")
+
+int module_start()
 {
 	init_video();
 
