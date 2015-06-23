@@ -19,7 +19,7 @@
 
 PSP2_MODULE_INFO(0, 0, "psp2helloworld")
 
-int module_start()
+int main()
 {
 	init_video();
 

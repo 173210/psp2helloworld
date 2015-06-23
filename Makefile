@@ -4,7 +4,7 @@
 #
 
 TARGET = vitahelloworld
-OBJS   = main.o draw.o font_data.o export.o
+OBJS   = main.o draw.o font_data.o
 
 LIBS = -lc_stub -lSceKernel_stub -lSceDisplay_stub -lSceGxm_stub -lSceCtrl_stub
 
@@ -21,7 +21,7 @@ all: $(TARGET)_fixup.elf
 	psp2-fixup $< $@
 
 $(TARGET).elf: $(OBJS)
-	$(CC) $(CFLAGS) -specs=psp2.specs -nostdlib -L$(PSP2SDK)/lib $^ $(LIBS) -o $@
+	$(CC) $(CFLAGS) -specs=psp2.specs -L$(PSP2SDK)/lib $^ $(LIBS) -o $@
 
 clean:
 	@rm -rf $(TARGET)_fixup.elf $(TARGET).elf $(OBJS)
