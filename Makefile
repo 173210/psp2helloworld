@@ -13,7 +13,7 @@ PREFIX  = $(DEVKITARM)/bin/arm-none-eabi
 CC      = $(PREFIX)-gcc
 READELF = $(PREFIX)-readelf
 OBJDUMP = $(PREFIX)-objdump
-CFLAGS  = -Wall -B$(PSP2SDK)
+CFLAGS  = -Wall -specs=psp2.specs
 ASFLAGS = $(CFLAGS)
 
 all: $(TARGET)_fixup.elf
@@ -22,7 +22,7 @@ all: $(TARGET)_fixup.elf
 	psp2-fixup $< $@
 
 $(TARGET).elf: $(OBJS)
-	$(CC) $(CFLAGS) -specs=psp2.specs -L$(PSP2SDK)/lib $^ $(LIBS) -o $@
+	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
 
 clean:
 	@rm -rf $(TARGET)_fixup.elf $(TARGET).elf $(OBJS)
