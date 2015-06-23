@@ -6,7 +6,8 @@
 TARGET = vitahelloworld
 OBJS   = main.o draw.o font_data.o
 
-LIBS = -lc_stub -lSceKernel_stub -lSceDisplay_stub -lSceGxm_stub -lSceCtrl_stub
+LIBS = -lc_stub -lSceKernel_stub -lSceDisplay_stub -lSceGxm_stub	\
+	-lSceCtrl_stub -lSceTouch_stub
 
 PREFIX  = $(DEVKITARM)/bin/arm-none-eabi
 CC      = $(PREFIX)-gcc
