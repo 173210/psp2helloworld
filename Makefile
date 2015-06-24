@@ -18,7 +18,7 @@ ASFLAGS = $(CFLAGS)
 all: $(TARGET)_fixup.elf
 
 %_fixup.elf: %.elf
-	psp2-fixup $< $@
+	psp2-fixup -q -S $< $@
 
 $(TARGET).elf: $(OBJS)
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
