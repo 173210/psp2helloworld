@@ -9,10 +9,9 @@ OBJS   = main.o draw.o font_data.o
 LIBS = -lc_stub -lSceKernel_stub -lSceDisplay_stub -lSceGxm_stub	\
 	-lSceCtrl_stub -lSceTouch_stub
 
-PREFIX  = $(DEVKITARM)/bin/arm-none-eabi
-CC      = $(PREFIX)-gcc
-READELF = $(PREFIX)-readelf
-OBJDUMP = $(PREFIX)-objdump
+CC      = arm-none-eabi-gcc
+READELF = arm-none-eabi-readelf
+OBJDUMP = arm-none-eabi-objdump
 CFLAGS  = -Wall -specs=psp2.specs
 ASFLAGS = $(CFLAGS)
 
