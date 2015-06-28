@@ -13,5 +13,4 @@ Once all the prerequisites have been met, you can compile this homebrew by typin
 
 ## Credits
 Thanks to yifanlu for Rejuvenate and UVLoader :D
-Thanks to 173210 and everybody who contributed to psp2sdk.
 Also thanks to everybody who has helped me on #vitadev :P
