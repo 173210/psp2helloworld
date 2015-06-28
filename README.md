@@ -1,4 +1,4 @@
-## vitahelloworld
+## psp2helloworld
 Homebrew sample for the PSVita.
 
 ## Compiling

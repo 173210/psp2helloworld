@@ -3,7 +3,7 @@
 # based on Cirne's vita-toolchain test Makefile
 #
 
-TARGET = vitahelloworld
+TARGET = psp2helloworld
 OBJS   = main.o draw.o font_data.o
 
 LIBS = -lSceKernel_stub -lSceDisplay_stub -lSceGxm_stub	\
