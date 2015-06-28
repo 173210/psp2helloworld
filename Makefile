@@ -25,7 +25,3 @@ $(TARGET).elf: $(OBJS)
 
 clean:
 	@rm -rf $(TARGET)_fixup.elf $(TARGET).elf $(OBJS)
-
-copy: $(TARGET)_fixup.elf
-	@cp $(TARGET)_fixup.elf ~/shared/vitasample.elf
-	@echo "Copied!"
