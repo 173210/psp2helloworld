@@ -28,3 +28,4 @@ clean:
 
 copy: $(TARGET)_fixup.elf
 	@cp $(TARGET)_fixup.elf ~/shared/vitasample.elf
+	@echo "Copied!"

@@ -7,8 +7,9 @@
 #include <stdarg.h>
 #include <psp2/display.h>
 #include <psp2/gxm.h>
+#include <psp2/kernel/memorymgr.h>
 #include "draw.h"
-#include "defines.h"
+#include "utils.h"
 
 extern const unsigned char msx_font[];
 
@@ -148,6 +149,23 @@ void draw_rectangle(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint32_t col
 	for (i = 0; i < h; i++) {
 		for (j = 0; j < w; j++) {
 			((uint32_t *)fb[cur_fb].base)[(x + j) + (y + i)*fb[cur_fb].pitch] = color;
+		}
+	}
+}
+
+void draw_circle(uint32_t x, uint32_t y, uint32_t radius, uint32_t color)
+{
+	int r2 = radius * radius;
+	int area = r2 << 2;
+	int rr = radius << 1;
+
+	int i;
+	for (i = 0; i < area; i++) {
+		int tx = (i % rr) - radius;
+		int ty = (i / rr) - radius;
+
+		if (tx * tx + ty * ty <= r2) {
+			draw_pixel(x + tx, y + ty, color);
 		}
 	}
 }

@@ -14,8 +14,9 @@
 #include <psp2/gxm.h>
 #include <psp2/types.h>
 #include <psp2/moduleinfo.h>
+#include <psp2/kernel/processmgr.h>
 
-#include "defines.h"
+#include "utils.h"
 #include "draw.h"
 
 PSP2_MODULE_INFO(0, 0, "psp2helloworld")
@@ -25,8 +26,7 @@ int main()
 	init_video();
 
 	/* FPS counting */
-	struct timeval curtime;
-	uint64_t cur_micros = 0, delta_micros = 0, last_micros = 0;
+	SceUInt64 cur_micros = 0, delta_micros = 0, last_micros = 0;
 	uint32_t frames = 0;
 	float fps = 0.0f;
 
@@ -39,7 +39,7 @@ int main()
 	uint32_t color = RGBA8(255, 0, 0, 255);
 
 	/* Inout variables */
-	CtrlData pad;
+	SceCtrlData pad;
 	SceTouchData touch;
 	signed char lx, ly, rx, ry;
 
@@ -47,8 +47,12 @@ int main()
 		clear_screen();
 
 		/* Read controls and touchscreen */
-		sceCtrlPeekBufferPositive(0, (SceCtrlData *)&pad, 1);
+		sceCtrlPeekBufferPositive(0, &pad, 1);
 		sceTouchPeek(0, &touch, 1);
+
+		if (pad.buttons & PSP2_CTRL_START) {
+			break;
+		}
 
 		font_draw_string(10, 10, RGBA8(0, 0, 255, 255), "PSVita sample by xerpi!");
 		font_draw_stringf(SCREEN_W - 160, 10, RGBA8(0, 255, 0, 255), "FPS: %.2f", fps);
@@ -135,9 +139,11 @@ int main()
 		/* Draw the rectangle */
 		draw_rectangle(x, y, w, h, color);
 
+		/* Draw a circle */
+		draw_circle(SCREEN_W / 2, SCREEN_H / 2, 50, RGBA8(0,0,255,255));
+
 		/* Calculate FPS */
-		sceKernelLibcGettimeofday(&curtime, NULL);
-		cur_micros = curtime.tv_sec*(uint64_t)1000000 + curtime.tv_usec;
+		cur_micros = sceKernelGetProcessTimeWide();
 
 		if (cur_micros >= (last_micros + 1000000)) {
 			delta_micros = cur_micros - last_micros;
